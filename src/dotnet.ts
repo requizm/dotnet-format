@@ -63,10 +63,41 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
   return !!dotnetResult;
 }
 
+async function formatVersion5(options: FormatOptions): Promise<boolean> {
+  const execOptions: ExecOptions = { ignoreReturnCode: false };
+
+  const dotnetFormatOptions = ["format"];
+
+  if (options.dryRun) {
+    dotnetFormatOptions.push("----verify-no-changes");
+  }
+
+  if (formatOnlyChangedFiles(options.onlyChangedFiles)) {
+    const filesToCheck = await getPullRequestFiles();
+
+    info(`Checking ${filesToCheck.length} files`);
+
+    // if there weren't any files to check then we need to bail
+    if (!filesToCheck.length) {
+      debug("No files found for formatting");
+      return false;
+    }
+
+    dotnetFormatOptions.push("--include", filesToCheck.join(" "));
+  }
+
+  const dotnetPath: string = await which("dotnet", true);
+  const dotnetResult = await exec(`"${dotnetPath}"`, dotnetFormatOptions, execOptions);
+
+  return !!dotnetResult;
+}
+
 export function format(version: DotNetFormatVersion): FormatFunction {
   switch (version || "") {
     case "3":
       return formatVersion3;
+    case "5":
+      return formatVersion5;
 
     default:
       throw Error(`dotnet-format version "${version}" is unsupported`);
