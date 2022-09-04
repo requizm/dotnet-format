@@ -74,7 +74,7 @@ async function formatVersion5(options: FormatOptions): Promise<boolean> {
   const dotnetFormatOptions = ["format"];
 
   if (options.dryRun) {
-    dotnetFormatOptions.push("----verify-no-changes");
+    dotnetFormatOptions.push("--verify-no-changes");
   }
 
   if (formatOnlyChangedFiles(options.onlyChangedFiles)) {
