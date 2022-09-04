@@ -28,8 +28,12 @@ inputs:
     description: "Only changed files in the current pull request should be formatted"
     required: false
 
-  folder:
-    description: "Folder to run dotnet-format in"
+  directory:
+    description: "Directory to run dotnet-format in"
+    required: false
+
+  solution:
+    description: "Solution file to run dotnet-format in"
     required: false
 
   fail-fast:

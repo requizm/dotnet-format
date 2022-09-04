@@ -18,7 +18,8 @@ export type FormatFunction = (options: FormatOptions) => Promise<boolean>;
 export interface FormatOptions {
   dryRun: boolean;
   onlyChangedFiles: boolean;
-  folder: string;
+  directory: string;
+  solution: string;
 }
 
 function formatOnlyChangedFiles(onlyChangedFiles: boolean): boolean {
@@ -37,13 +38,17 @@ function formatOnlyChangedFiles(onlyChangedFiles: boolean): boolean {
 
 async function formatVersion3(options: FormatOptions): Promise<boolean> {
   const execOptions: ExecOptions = {
-    ignoreReturnCode: true, cwd: options.folder, 
+    ignoreReturnCode: true, cwd: options.directory,
   };
 
   const dotnetFormatOptions = ["format", "--check"];
 
   if (options.dryRun) {
     dotnetFormatOptions.push("--dry-run");
+  }
+
+  if (options.solution) {
+    dotnetFormatOptions.push(options.solution);
   }
 
   if (formatOnlyChangedFiles(options.onlyChangedFiles)) {
@@ -68,13 +73,17 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
 
 async function formatVersion5(options: FormatOptions): Promise<boolean> {
   const execOptions: ExecOptions = {
-    ignoreReturnCode: false, cwd: options.folder, 
+    ignoreReturnCode: false, cwd: options.directory,
   };
 
   const dotnetFormatOptions = ["format"];
 
   if (options.dryRun) {
     dotnetFormatOptions.push("--verify-no-changes");
+  }
+
+  if (options.solution) {
+    dotnetFormatOptions.push(options.solution);
   }
 
   if (formatOnlyChangedFiles(options.onlyChangedFiles)) {
