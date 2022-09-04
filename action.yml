@@ -1,4 +1,4 @@
-name: "dotnet-format"
+name: "super-dotnet-format"
 
 description: "Run dotnet format and optionally apply any fixes"
 
@@ -17,7 +17,7 @@ inputs:
   version:
     description: "Version of dotnet-format to use"
     required: true
-    default: "3"
+    default: "5"
 
   action:
     description: "Primary action dotnet-format should perform (check for errors or apply fixes)"
