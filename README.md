@@ -170,6 +170,7 @@ Name | Allowed values | Description
 -- | -- | --
 `only-changed-files` | `true`, `false` (default) | Only changed files in the current pull request should be formatted.
 `fail-fast` | `true` (default), `false` | The job should fail if there's a formatting error. Only used with the `check` action.
+`folder` | `.` (default) | The folder to run `dotnet-format` in.
 
 ## Outputs
 
