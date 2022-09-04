@@ -36,7 +36,9 @@ function formatOnlyChangedFiles(onlyChangedFiles: boolean): boolean {
 }
 
 async function formatVersion3(options: FormatOptions): Promise<boolean> {
-  const execOptions: ExecOptions = { ignoreReturnCode: true, cwd: options.folder };
+  const execOptions: ExecOptions = {
+    ignoreReturnCode: true, cwd: options.folder, 
+  };
 
   const dotnetFormatOptions = ["format", "--check"];
 
@@ -65,7 +67,9 @@ async function formatVersion3(options: FormatOptions): Promise<boolean> {
 }
 
 async function formatVersion5(options: FormatOptions): Promise<boolean> {
-  const execOptions: ExecOptions = { ignoreReturnCode: false, cwd: options.folder };
+  const execOptions: ExecOptions = {
+    ignoreReturnCode: false, cwd: options.folder, 
+  };
 
   const dotnetFormatOptions = ["format"];
 

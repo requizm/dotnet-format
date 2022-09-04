@@ -18,7 +18,7 @@ export async function check(): Promise<void> {
   const result = await format(dotnetFormatVersion)({
     dryRun: true,
     onlyChangedFiles,
-    folder: folder,
+    folder,
   });
 
   setOutput("has-changes", result.toString());
@@ -39,7 +39,7 @@ export async function fix(): Promise<void> {
   const result = await format(dotnetFormatVersion)({
     dryRun: false,
     onlyChangedFiles,
-    folder: folder,
+    folder,
   });
 
   setOutput("has-changes", result.toString());
