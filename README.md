@@ -1,7 +1,7 @@
 # GitHub Action for dotnet-format
 
-[![CI](https://github.com/xt0rted/dotnet-format/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xt0rted/dotnet-format/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/xt0rted/dotnet-formatc/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/xt0rted/dotnet-format/actions/workflows/codeql-analysis.yml)
+[![CI](https://github.com/requizm/dotnet-format/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/requizm/dotnet-format/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/requizm/dotnet-formatc/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/requizm/dotnet-format/actions/workflows/codeql-analysis.yml)
 
 Run [dotnet-format](https://github.com/dotnet/format) v3 as part of your workflow to report formatting errors or auto fix violations as part of your pull request workflow.
 
@@ -26,7 +26,7 @@ jobs:
         uses: xt0rted/dotnet-tool-restore@v1
 
       - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
+        uses: requizm/dotnet-format@0.1.2
 ```
 
 Running on `pull_request`.
@@ -48,7 +48,7 @@ jobs:
         uses: xt0rted/dotnet-tool-restore@v1
 
       - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
+        uses: requizm/dotnet-format@0.1.2
         with:
           only-changed-files: "true"
 ```
@@ -96,7 +96,7 @@ jobs:
       - name: Run dotnet format
         if: steps.command.outputs.command-name && steps.command.outputs.command-arguments == 'format'
         id: format
-        uses: xt0rted/dotnet-format@v1
+        uses: requizm/dotnet-format@0.1.2
         with:
           action: "fix"
           only-changed-files: true
@@ -133,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
+        uses: requizm/dotnet-format@0.1.2
         with:
           only-changed-files: "true"
 ```
@@ -149,7 +149,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
+        uses: requizm/dotnet-format@0.1.2
         with:
           only-changed-files: "true"
 ```
@@ -171,7 +171,7 @@ Name | Allowed values | Description
 `only-changed-files` | `true`, `false` (default) | Only changed files in the current pull request should be formatted.
 `fail-fast` | `true` (default), `false` | The job should fail if there's a formatting error. Only used with the `check` action.
 `directory` | `.` (default) | The directory to run `dotnet-format` in.
-`solution` | `null` (default) | The solution file to run `dotnet-format` in.
+`solution` | `` (default) | The solution file to run `dotnet-format` in.
 
 ## Outputs
 
@@ -182,3 +182,5 @@ Name | Description
 ## License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
+
+Thanks to [xt0rted](https://github.com/xt0rted/) for the project.
