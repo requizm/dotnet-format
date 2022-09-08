@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xt0rted/dotnet-format.git"
+    "url": "git+https://github.com/requizm/dotnet-format.git"
   },
   "keywords": [
     "actions"
   ],
-  "author": "xt0rted",
+  "author": "requizm",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.1",
