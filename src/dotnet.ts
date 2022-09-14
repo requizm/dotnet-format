@@ -22,6 +22,12 @@ export interface FormatOptions {
   solution: string;
 }
 
+export interface BuildOptions {
+  dryRun: boolean;
+  directory: string;
+  solution: string;
+}
+
 function formatOnlyChangedFiles(onlyChangedFiles: boolean): boolean {
   if (onlyChangedFiles) {
     if (context.eventName === "issue_comment" || context.eventName === "pull_request") {
@@ -116,4 +122,21 @@ export function format(version: DotNetFormatVersion): FormatFunction {
     default:
       throw Error(`dotnet-format version "${version}" is unsupported`);
   }
+}
+
+export async function build(options: BuildOptions): Promise<boolean> {
+  const execOptions: ExecOptions = {
+    ignoreReturnCode: false, cwd: options.directory,
+  };
+
+  const dotnetFormatOptions = ["build"];
+
+  if (options.solution) {
+    dotnetFormatOptions.push(options.solution);
+  }
+
+  const dotnetPath: string = await which("dotnet", true);
+  const dotnetResult = await exec(`"${dotnetPath}"`, dotnetFormatOptions, execOptions);
+
+  return !!dotnetResult;
 }

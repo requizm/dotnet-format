@@ -26,7 +26,7 @@ jobs:
         uses: xt0rted/dotnet-tool-restore@v1
 
       - name: Run dotnet format
-        uses: requizm/dotnet-format@0.1.2
+        uses: requizm/dotnet-format@0.2.0
 ```
 
 Running on `pull_request`.
@@ -48,7 +48,7 @@ jobs:
         uses: xt0rted/dotnet-tool-restore@v1
 
       - name: Run dotnet format
-        uses: requizm/dotnet-format@0.1.2
+        uses: requizm/dotnet-format@0.2.0
         with:
           only-changed-files: "true"
 ```
@@ -96,7 +96,7 @@ jobs:
       - name: Run dotnet format
         if: steps.command.outputs.command-name && steps.command.outputs.command-arguments == 'format'
         id: format
-        uses: requizm/dotnet-format@0.1.2
+        uses: requizm/dotnet-format@0.2.0
         with:
           action: "fix"
           only-changed-files: true
@@ -133,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run dotnet format
-        uses: requizm/dotnet-format@0.1.2
+        uses: requizm/dotnet-format@0.2.0
         with:
           only-changed-files: "true"
 ```
@@ -149,9 +149,25 @@ jobs:
       pull-requests: read
     steps:
       - name: Run dotnet format
-        uses: requizm/dotnet-format@0.1.2
+        uses: requizm/dotnet-format@0.2.0
         with:
           only-changed-files: "true"
+```
+
+```yml
+on: pull_request
+jobs:
+  dotnet-format:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Run dotnet format
+        uses: requizm/dotnet-format@0.2.0
+        with:
+          action: "build"
+          directory: "src"
+          solution: "Assembly-CSharp.csproj"
 ```
 
 ## Options
@@ -162,16 +178,16 @@ Name | Allowed values | Description
 -- | -- | --
 `repo-token` | `GITHUB_TOKEN` (default) or PAT | `GITHUB_TOKEN` token or a repo scoped PAT.
 `version` | `3`, `5` (default),  | Version of `dotnet-format` to use.
-`action` | `check` (default), `fix` | Primary action `dotnet-format` should perform.
+`action` | `check` (default), `fix`, `build` | Primary action `dotnet` should perform.
 
 ### Optional
 
-Name | Allowed values | Description
--- | -- | --
-`only-changed-files` | `true`, `false` (default) | Only changed files in the current pull request should be formatted.
-`fail-fast` | `true` (default), `false` | The job should fail if there's a formatting error. Only used with the `check` action.
-`directory` | `.` (default) | The directory to run `dotnet-format` in.
-`solution` | `` (default) | The solution file to run `dotnet-format` in.
+Name | Allowed values | Description | Allowed actions
+-- | -- | -- | --
+`only-changed-files` | `true`, `false` (default) | Only changed files in the current pull request should be formatted. | `check`, `fix`
+`fail-fast` | `true` (default), `false` | The job should fail if there's a formatting/building error. Only used with the `check` action. | `check`, `fix`, `build`
+`directory` | `.` (default) | The directory to run `dotnet` in. | `check`, `fix`, `build`
+`solution` | ` ` (default) | The solution file to run `dotnet` in. | `check`, `fix`, `build`
 
 ## Outputs
 

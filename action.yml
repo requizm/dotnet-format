@@ -1,8 +1,8 @@
 name: "super-dotnet-format"
 
-description: "Run dotnet format and optionally apply any fixes"
+description: "Run dotnet format/build and optionally apply any fixes"
 
-author: "xt0rted"
+author: "requizm"
 
 branding:
   icon: "file-text"
