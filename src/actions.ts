@@ -4,7 +4,9 @@ import {
   setOutput,
 } from "@actions/core";
 
-import { format } from "./dotnet";
+import {
+  format, build as build1, 
+} from "./dotnet";
 import { checkVersion } from "./version";
 
 export async function check(): Promise<void> {
@@ -47,4 +49,20 @@ export async function fix(): Promise<void> {
   });
 
   setOutput("has-changes", result.toString());
+}
+
+export async function build(): Promise<void> {
+  const failFast = getBooleanInput("fail-fast");
+  const directory = getInput("directory") || ".";
+  const solution = getInput("solution");
+
+  const result = await build1({
+    dryRun: false,
+    directory,
+    solution,
+  });
+
+  if (result && failFast) {
+    throw Error("Compile issues found");
+  }
 }

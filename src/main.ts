@@ -4,6 +4,7 @@ import {
 } from "@actions/core";
 
 import {
+  build,
   check,
   fix,
 } from "./actions";
@@ -19,6 +20,10 @@ export async function run(): Promise<void> {
 
       case "fix":
         await fix();
+        break;
+
+      case "build":
+        await build();
         break;
 
       default:
