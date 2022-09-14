@@ -10674,7 +10674,7 @@ function wrappy (fn, cb) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.fix = exports.check = void 0;
+exports.build = exports.fix = exports.check = void 0;
 const core_1 = __nccwpck_require__(2186);
 const dotnet_1 = __nccwpck_require__(9870);
 const version_1 = __nccwpck_require__(1946);
@@ -10713,6 +10713,20 @@ async function fix() {
     (0, core_1.setOutput)("has-changes", result.toString());
 }
 exports.fix = fix;
+async function build() {
+    const failFast = (0, core_1.getBooleanInput)("fail-fast");
+    const directory = (0, core_1.getInput)("directory") || ".";
+    const solution = (0, core_1.getInput)("solution");
+    const result = await (0, dotnet_1.build)({
+        dryRun: false,
+        directory,
+        solution,
+    });
+    if (result && failFast) {
+        throw Error("Compile issues found");
+    }
+}
+exports.build = build;
 
 
 /***/ }),
@@ -10723,7 +10737,7 @@ exports.fix = fix;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.format = void 0;
+exports.build = exports.format = void 0;
 const core_1 = __nccwpck_require__(2186);
 const exec_1 = __nccwpck_require__(1514);
 const github_1 = __nccwpck_require__(5438);
@@ -10800,6 +10814,19 @@ function format(version) {
     }
 }
 exports.format = format;
+async function build(options) {
+    const execOptions = {
+        ignoreReturnCode: false, cwd: options.directory,
+    };
+    const dotnetFormatOptions = ["build"];
+    if (options.solution) {
+        dotnetFormatOptions.push(options.solution);
+    }
+    const dotnetPath = await (0, io_1.which)("dotnet", true);
+    const dotnetResult = await (0, exec_1.exec)(`"${dotnetPath}"`, dotnetFormatOptions, execOptions);
+    return !!dotnetResult;
+}
+exports.build = build;
 
 
 /***/ }),
@@ -11080,6 +11107,9 @@ async function run() {
                 break;
             case "fix":
                 await (0, actions_1.fix)();
+                break;
+            case "build":
+                await (0, actions_1.build)();
                 break;
             default:
                 throw Error(`Unsupported action "${action}"`);
